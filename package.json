@@ -1,0 +1,27 @@
+{
+  "name": "ton3-wallets",
+  "version": "0.0.1",
+  "description": "wallet contracts wrapper for ton3",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pyAndr3w/ton3-wallets.git"
+  },
+  "author": "pyAndr3w",
+  "bugs": {
+    "url": "https://github.com/pyAndr3w/ton3-wallets/issues"
+  },
+  "homepage": "https://github.com/pyAndr3w/ton3-wallets#readme",
+  "dependencies": {
+    "ton3-core": "^0.0.14"
+  },
+  "devDependencies": {
+    "@types/node": "^18.6.3",
+    "typescript": "^4.7.4"
+  },
+   "files": ["/dist"]
+}
