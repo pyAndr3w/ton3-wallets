@@ -10,16 +10,16 @@ const prefix = {
     changeLibrary: 0x26fa1dd4,
 };
 class PreprocessedWalletContract extends ton3_core_1.Contracts.ContractBase {
-    constructor(workchain, publicKey, subwalletId = constants_1.StandardSubwalletId) {
+    constructor(opts) {
         const code = Source_1.Source.PreprocessedWallet();
         const storage = new ton3_core_1.Builder()
             .storeUint(0, 32)
-            .storeUint(subwalletId, 32)
-            .storeBytes(publicKey)
+            .storeUint(opts.subwalletId ?? constants_1.StandardSubwalletId, 32)
+            .storeBytes(opts.publicKey)
             .cell();
-        super(workchain, code, storage);
-        this.publicKey = publicKey;
-        this.subwalletId = subwalletId;
+        super(opts.workchain ?? 0, code, storage);
+        this.publicKey = opts.publicKey;
+        this.subwalletId = opts.subwalletId ?? constants_1.StandardSubwalletId;
     }
     createTransferMessage(transfers, seqno, timeout = 60) {
         if (!transfers.length || transfers.length > 255) {

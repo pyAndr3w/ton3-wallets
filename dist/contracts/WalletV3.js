@@ -5,17 +5,17 @@ const ton3_core_1 = require("ton3-core");
 const constants_1 = require("../constants");
 const Source_1 = require("./Source");
 class WalletV3Contract extends ton3_core_1.Contracts.ContractBase {
-    constructor(workchain, publicKey, subwalletId = constants_1.StandardSubwalletId, version = "org.ton.wallets.v3.r2") {
-        const code = version === "org.ton.wallets.v3" ? Source_1.Source.WalletV3() : Source_1.Source.WalletV3R2();
+    constructor(opts) {
+        const code = opts.version === "org.ton.wallets.v3" ? Source_1.Source.WalletV3() : Source_1.Source.WalletV3R2();
         const storage = new ton3_core_1.Builder()
             .storeUint(0, 32)
-            .storeUint(subwalletId, 32)
-            .storeBytes(publicKey)
+            .storeUint(opts.subwalletId ?? constants_1.StandardSubwalletId, 32)
+            .storeBytes(opts.publicKey)
             .cell();
-        super(workchain, code, storage);
-        this.publicKey = publicKey;
-        this.subwalletId = subwalletId;
-        this.version = version;
+        super(opts.workchain ?? 0, code, storage);
+        this.publicKey = opts.publicKey;
+        this.subwalletId = opts.subwalletId ?? constants_1.StandardSubwalletId;
+        this.version = opts.version === "org.ton.wallets.v3" ? opts.version : "org.ton.wallets.v3.r2";
     }
     createTransferMessage(transfers, seqno, timeout = 60) {
         if (!transfers.length || transfers.length > 4) {
