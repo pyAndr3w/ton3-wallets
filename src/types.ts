@@ -1,6 +1,6 @@
 import {Address, Cell, Coins, Contracts} from "ton3-core";
 
-export interface StandardWalletContract {
+export interface StandardWalletContract extends Contracts.ContractBase {
     createTransferMessage(
         transfers: StandardWalletTransfer[],
         seqno: number,

@@ -10,21 +10,21 @@ export class WalletV4Contract extends Contracts.ContractBase implements Standard
 
     private version: WalletV4Versions
 
-    constructor (workchain: 0, publicKey: Uint8Array, subwalletId = StandardSubwalletId, version: WalletV4Versions = "org.ton.wallets.v4.r2") {
-        const code = version === "org.ton.wallets.v4" ? Source.WalletV4() : Source.WalletV4R2()
+    constructor (opts: { workchain?: number, publicKey: Uint8Array, subwalletId?: number, version?: WalletV4Versions }) {
+        const code = opts.version === "org.ton.wallets.v4" ? Source.WalletV4() : Source.WalletV4R2()
 
         const storage = new Builder()
             .storeUint(0, 32)
-            .storeUint(subwalletId, 32)
-            .storeBytes(publicKey)
+            .storeUint(opts.subwalletId ?? StandardSubwalletId, 32)
+            .storeBytes(opts.publicKey)
             .storeUint(0, 1)
             .cell()
 
-        super(workchain, code, storage)
+        super(opts.workchain ?? 0, code, storage)
 
-        this.publicKey = publicKey
-        this.subwalletId = subwalletId
-        this.version = version
+        this.publicKey = opts.publicKey
+        this.subwalletId = opts.subwalletId ?? StandardSubwalletId
+        this.version = opts.version === "org.ton.wallets.v4" ? opts.version : "org.ton.wallets.v4.r2"
     }
 
     public createTransferMessage (
